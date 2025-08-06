@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: namarahulcollab
+
+springdoc:
+  swagger-ui:
+    path: /
+  api-docs:
+    enabled: true
