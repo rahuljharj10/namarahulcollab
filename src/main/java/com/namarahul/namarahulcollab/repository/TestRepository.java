@@ -12,7 +12,6 @@ public class TestRepository {
      * @return A string message for testing purposes.
      */
     public String fetchTestMessage() {
-
         return Constants.TEST_MESSAGE;
     }
 }
