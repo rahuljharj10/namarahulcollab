@@ -13,5 +13,5 @@ public class Constants {
      * TEST_MESSAGE is a constant string used for testing purposes.
      * It indicates that a method has been called successfully.
      */
-    public static final String TEST_MESSAGE = "called successfully.";
+    public static final String TEST_MESSAGE = "Api called successfully.";
 }

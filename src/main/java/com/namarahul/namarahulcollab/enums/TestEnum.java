@@ -7,5 +7,5 @@ package com.namarahul.namarahulcollab.enums;
 public enum TestEnum {
     SUCCESS,
     FAILURE,
-    UNKNOWN;
+    UNKNOWN
 }
