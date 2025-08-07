@@ -4,14 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.stereotype.Service;
+import lombok.Setter;
 
 /**
  * DTO for transferring employee data in API responses.
  * Contains basic personal and contact information of an employee.
  */
 @Getter
-@Service
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
