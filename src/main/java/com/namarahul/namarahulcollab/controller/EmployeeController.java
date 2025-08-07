@@ -63,7 +63,7 @@ public class EmployeeController {
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class)))
     })
     @GetMapping("/get-all-employees")
-    public List<EmployeeResponse> getAllEmployees() {
+    public ResponseEntity<List<EmployeeResponse>> getAllEmployees() {
 
         log.info("Accessed /get-all-employees endpoint");
 
@@ -71,6 +71,6 @@ public class EmployeeController {
 
         log.info("Returning employee responses: {}", responses);
 
-        return responses;
+        return ResponseEntity.ok().body(responses);
     }
 }
