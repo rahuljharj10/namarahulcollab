@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 @RequestMapping
 @Tag(name = "Test API", description = "API for testing OpenAPI definition")
 public class TestController {
@@ -40,7 +42,12 @@ public class TestController {
     @GetMapping("/test")
     public ResponseEntity<MessageResponse> test() {
 
-        return ResponseEntity.ok()
-                .body(testService.getTestMessage());
+        log.info("Accessed /test endpoint");
+
+        MessageResponse messageResponse = testService.getTestMessage();
+
+        log.info("Returning test message response: {}", messageResponse);
+
+        return ResponseEntity.ok().body(messageResponse);
     }
 }
