@@ -1,1 +1,15 @@
-.
+# Namarahulcollab
+
+A Spring Boot application for managing employees, demonstrating RESTful APIs, DTOs, and service layers.
+
+## Project Structure
+- `src/main/java/com/namarahul/namarahulcollab/` - Main application code
+- `src/main/resources/application.yml` - Configuration
+- `src/test/java/com/namarahul/namarahulcollab/` - Test cases
+
+## API Endpoints
+Host: [`http://localhost:8080/hello`](http://localhost:8080/hello)
+- `GET /test` - Returns a test message for API verification
+
+## License
+MIT
