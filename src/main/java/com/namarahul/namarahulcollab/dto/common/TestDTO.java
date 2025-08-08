@@ -4,13 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.stereotype.Service;
+import lombok.Setter;
 
 /**
  * TestDTO is a simple Data Transfer Object for test responses.
  */
 @Getter
-@Service
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
