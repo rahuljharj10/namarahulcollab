@@ -54,6 +54,7 @@ public class EmployeeService {
      *
      * @return List of EmployeeResponse objects representing all employees.
      */
+    @Cacheable(cacheNames = "all-employees")
     public List<EmployeeResponse> getAllEmployees() {
 
         return employeeRepository.findAll().stream()
