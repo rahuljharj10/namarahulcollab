@@ -3,8 +3,9 @@ package com.namarahul.namarahulcollab.service;
 import com.namarahul.namarahulcollab.dto.Response.EmployeeResponse;
 import com.namarahul.namarahulcollab.entity.Employee;
 import com.namarahul.namarahulcollab.repository.EmployeeRepository;
+import com.namarahul.namarahulcollab.util.ObjectMapperUtils;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,7 +21,32 @@ public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
 
-    private final ModelMapper modelMapper;
+    /**
+     * Retrieves an employee by ID and maps it to EmployeeResponse DTO.
+     *
+     * @param id The ID of the employee to retrieve.
+     * @return EmployeeResponse DTO of the found employee.
+     * @throws RuntimeException if employee is not found.
+     */
+    // (RAHUL) - By default no way to see , you have to see by hitting the endpoint or by adding loggers
+    @Cacheable(cacheNames = "employees", key = "#id")
+    public EmployeeResponse getEmployeesById(Integer id) {
+
+        Employee employee = employeeRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Employee not found with id: " + id));
+
+        return convertToEmployeeResponse(employee);
+    }
+
+    // (RAHUL) - if no key passed all the parameter become key
+//    @Cacheable(cacheNames =  "employees")
+//    public EmployeeResponse getEmployeesById(Integer id) {
+//
+//        Employee employee = employeeRepository.findById(id)
+//                .orElseThrow(() -> new RuntimeException("Employee not found with id: " + id));
+//
+//        return convertToEmployeeResponse(employee);
+//    }
 
     /**
      * Retrieves all employees from the repository and maps them to EmployeeResponse DTOs.
@@ -30,29 +56,13 @@ public class EmployeeService {
      */
     public List<EmployeeResponse> getAllEmployees() {
 
-        //When you are using way 3
-//        return convertToEmployeeResponse(employeeRepository.findAll());
-
         return employeeRepository.findAll().stream()
                 .map(this::convertToEmployeeResponse)
                 .toList();
     }
 
-    //Way 1: Using ModelMapper
     private EmployeeResponse convertToEmployeeResponse(Employee employee) {
 
-        return modelMapper.map(employee, EmployeeResponse.class);
+        return ObjectMapperUtils.map(employee, EmployeeResponse.class);
     }
-
-    //Way 2: Using ObjectMapperUtils(Generics)
-//    private EmployeeResponse convertToEmployeeResponse(Employee employee) {
-//
-//        return ObjectMapperUtils.map(employee, EmployeeResponse.class);
-//    }
-
-    //Way 3: Using ObjectMapperUtils(Generics)
-//    private List<EmployeeResponse> convertToEmployeeResponse(List<Employee> employee) {
-//
-//        return ObjectMapperUtils.mapAll(employee, EmployeeResponse.class);
-//    }
 }
