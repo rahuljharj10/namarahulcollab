@@ -5,7 +5,7 @@ package com.namarahul.namarahulcollab.exception;
  * This exception extends RuntimeException and can be thrown when an employee
  * with a specific ID does not exist in the system.
  */
-public class EmployeeNotFoundException extends RuntimeException {
+public class EmployeeNotFoundException extends NotFoundException {
 
     /**
      * Default constructor for EmployeeNotFoundException.

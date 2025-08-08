@@ -17,18 +17,18 @@ import java.time.LocalDateTime;
 public class GlobalExceptionHandler {
 
     /**
-     * Handles EmployeeNotFoundException and returns a 404 Not Found response.
+     * Handles NotFoundException and returns a 404 Not Found response.
      *
-     * @param ex the exception thrown when an employee is not found
+     * @param ex the exception thrown
      * @return ResponseEntity containing the error response
      */
-    @ExceptionHandler(EmployeeNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleEmployeeNotFound(EmployeeNotFoundException ex) {
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleNotFound(NotFoundException ex) {
 
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .timestamp(LocalDateTime.now())
                 .status(HttpStatus.NOT_FOUND.value())
-                .error("Employee Not Found")
+                .error("Not Found Exception")
                 .message(ex.getMessage())
                 .build();
 

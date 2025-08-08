@@ -40,13 +40,20 @@ public class EmployeeService {
     }
 
     /**
-     * Retrieves all employees from the repository and maps them to EmployeeResponse DTOs.
-     * Uses MapperUtil for conversion.
+     * Retrieves all employees and maps them to a list of EmployeeResponse DTOs.
      *
-     * @return List of EmployeeResponse objects representing all employees.
+     * @return List of EmployeeResponse DTOs.
+     * @throws RuntimeException if no employees are found.
      */
     public List<EmployeeResponse> getAllEmployees() {
-        return employeeRepository.findAll().stream()
+
+        List<Employee> employees = employeeRepository.findAll();
+
+        if (employees.isEmpty()) {
+            throw new EmployeeNotFoundException("No employees found.");
+        }
+
+        return employees.stream()
                 .map(MapperUtil::mapEmployeeToEmployeeResponse)
                 .toList();
     }
