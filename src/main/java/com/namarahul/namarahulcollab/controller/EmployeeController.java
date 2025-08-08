@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -72,5 +73,30 @@ public class EmployeeController {
         log.info("Returning employee responses: {}", responses);
 
         return ResponseEntity.ok().body(responses);
+    }
+
+    /**
+     * Retrieves an employee by their ID as EmployeeResponse DTO.
+     *
+     * @param id Employee ID to retrieve.
+     * @return EmployeeResponse object for the given ID.
+     */
+    @Operation(summary = "Get employee by ID", description = "Retrieves an employee's details by their unique ID.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Employee found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = EmployeeResponse.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid ID supplied", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))),
+            @ApiResponse(responseCode = "404", description = "Employee not found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class)))
+    })
+    @GetMapping("/get-employee-by-id")
+    public ResponseEntity<EmployeeResponse> getEmployeesById(@RequestParam Integer id) {
+
+        log.info("Accessed /get-employee-by-id endpoint with id: {}", id);
+
+        EmployeeResponse response = employeeService.getEmployeesById(id);
+
+        log.info("Returning employee response for id {}: {}", id, response);
+
+        return ResponseEntity.ok().body(response);
     }
 }
