@@ -3,6 +3,7 @@ package com.namarahul.namarahulcollab.service;
 import com.namarahul.namarahulcollab.dto.Request.SaveEmployeeRequest;
 import com.namarahul.namarahulcollab.dto.Response.EmployeeResponse;
 import com.namarahul.namarahulcollab.entity.Employee;
+import com.namarahul.namarahulcollab.exception.EmployeeNotFoundException;
 import com.namarahul.namarahulcollab.repository.EmployeeRepository;
 import com.namarahul.namarahulcollab.util.MapperUtil;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +34,7 @@ public class EmployeeService {
     public EmployeeResponse getEmployeesById(Integer id) {
 
         Employee employee = employeeRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Employee not found with id: " + id));
+                .orElseThrow(() -> new EmployeeNotFoundException("Employee not found with id: " + id));
 
         return MapperUtil.mapEmployeeToEmployeeResponse(employee);
     }

@@ -3,6 +3,7 @@ package com.namarahul.namarahulcollab.controller;
 import com.namarahul.namarahulcollab.dto.Request.SaveEmployeeRequest;
 import com.namarahul.namarahulcollab.dto.Response.EmployeeResponse;
 import com.namarahul.namarahulcollab.dto.Response.SaveEmployeeResponse;
+import com.namarahul.namarahulcollab.dto.common.ErrorResponse;
 import com.namarahul.namarahulcollab.service.EmployeeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -11,6 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,8 +43,7 @@ public class EmployeeController {
     @Operation(summary = "Get test message", description = "Returns a test message for OpenAPI documentation.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successful response", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))),
-            @ApiResponse(responseCode = "400", description = "Bad request - CustomException", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))),
-            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class)))
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
     })
     @GetMapping("/test")
     public ResponseEntity<String> test() {
@@ -63,9 +64,9 @@ public class EmployeeController {
      */
     @Operation(summary = "Get all employees", description = "Retrieves a list of all employees.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successful response", content = @Content(mediaType = "application/json", schema = @Schema(implementation = EmployeeResponse.class))),
-            @ApiResponse(responseCode = "400", description = "Bad request - CustomException", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))),
-            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class)))
+            @ApiResponse(responseCode = "200", description = "Success", content = @Content(mediaType = "application/json", schema = @Schema(implementation = EmployeeResponse.class))),
+            @ApiResponse(responseCode = "404", description = "Not found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
     })
     @GetMapping("/get-all-employees")
     public ResponseEntity<List<EmployeeResponse>> getAllEmployees() {
@@ -87,10 +88,9 @@ public class EmployeeController {
      */
     @Operation(summary = "Get employee by ID", description = "Retrieves an employee's details by their unique ID.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Employee found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = EmployeeResponse.class))),
-            @ApiResponse(responseCode = "400", description = "Invalid ID supplied", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))),
-            @ApiResponse(responseCode = "404", description = "Employee not found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))),
-            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class)))
+            @ApiResponse(responseCode = "200", description = "Success", content = @Content(mediaType = "application/json", schema = @Schema(implementation = EmployeeResponse.class))),
+            @ApiResponse(responseCode = "404", description = "Not found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
     })
     @GetMapping("/get-employee-by-id")
     public ResponseEntity<EmployeeResponse> getEmployeesById(@RequestParam Integer id) {
@@ -112,9 +112,9 @@ public class EmployeeController {
      */
     @Operation(summary = "Save new employee", description = "Creates a new employee record in the system")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Employee saved successfully", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))),
-            @ApiResponse(responseCode = "400", description = "Invalid employee data supplied", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))),
-            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class)))
+            @ApiResponse(responseCode = "201", description = "Success", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))),
+            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
     })
     @PostMapping("/save-employee")
     public ResponseEntity<SaveEmployeeResponse> saveEmployee(@RequestBody SaveEmployeeRequest saveEmployeeRequest) {
@@ -125,6 +125,6 @@ public class EmployeeController {
 
         log.info("Successfully saved employee: {}", saveEmployeeRequest);
 
-        return ResponseEntity.ok().body(SaveEmployeeResponse.builder().message("Employee saved successfully").build());
+        return ResponseEntity.status(HttpStatus.CREATED).body(SaveEmployeeResponse.builder().message("Employee saved successfully").build());
     }
 }
