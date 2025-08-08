@@ -1,5 +1,6 @@
 package com.namarahul.namarahulcollab.service;
 
+import com.namarahul.namarahulcollab.dto.Request.SaveEmployeeRequest;
 import com.namarahul.namarahulcollab.dto.Response.EmployeeResponse;
 import com.namarahul.namarahulcollab.entity.Employee;
 import com.namarahul.namarahulcollab.repository.EmployeeRepository;
@@ -7,6 +8,8 @@ import com.namarahul.namarahulcollab.util.MapperUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -45,5 +48,29 @@ public class EmployeeService {
         return employeeRepository.findAll().stream()
                 .map(MapperUtil::mapEmployeeToEmployeeResponse)
                 .toList();
+    }
+
+    /**
+     * Saves a new employee to the database.
+     *
+     * @param saveEmployeeRequest Employee data to save
+     */
+    public void saveEmployee(SaveEmployeeRequest saveEmployeeRequest) {
+
+        Employee employee = Employee.builder()
+                .id(saveEmployeeRequest.getId())
+                .firstName(saveEmployeeRequest.getFirstName())
+                .lastName(saveEmployeeRequest.getLastName())
+                .email(saveEmployeeRequest.getEmail())
+                .phoneNumber(saveEmployeeRequest.getPhoneNumber())
+                .hireDate(LocalDate.now())
+                .jobTitle(saveEmployeeRequest.getJobTitle())
+                .salary(saveEmployeeRequest.getSalary())
+                .isActive(saveEmployeeRequest.getIsActive())
+                .createdAt(Instant.now())
+                .updatedAt(Instant.now())
+                .build();
+
+        employeeRepository.save(employee);
     }
 }

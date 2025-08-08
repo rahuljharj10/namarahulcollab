@@ -1,4 +1,4 @@
-package com.namarahul.namarahulcollab.dto.Request;
+package com.namarahul.namarahulcollab.dto.Response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,18 +6,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-/**
- * TestRequest is a DTO for incoming test requests.
- */
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TestRequest {
+public class SaveEmployeeResponse {
 
-    /**
-     * The message to be sent in the request.
-     */
     private String message;
 }

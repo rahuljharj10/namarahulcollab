@@ -1,0 +1,15 @@
+[
+  {
+    "PLEASE-REMEMBER": "Give id greater than 500(for database consistency) and email should be unique all the time"
+  },
+  {
+    "id": 501,
+    "firstName": "Rahul",
+    "lastName": "Jain",
+    "email": "sprahul.jain@example.com",
+    "phoneNumber": "+919876543210",
+    "jobTitle": "Software Engineer",
+    "salary": 75000.00,
+    "isActive": true
+  }
+]

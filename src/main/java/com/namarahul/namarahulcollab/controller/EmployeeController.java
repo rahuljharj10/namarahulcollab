@@ -1,6 +1,8 @@
 package com.namarahul.namarahulcollab.controller;
 
+import com.namarahul.namarahulcollab.dto.Request.SaveEmployeeRequest;
 import com.namarahul.namarahulcollab.dto.Response.EmployeeResponse;
+import com.namarahul.namarahulcollab.dto.Response.SaveEmployeeResponse;
 import com.namarahul.namarahulcollab.service.EmployeeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -11,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -98,5 +102,29 @@ public class EmployeeController {
         log.info("Returning employee response for id {}: {}", id, response);
 
         return ResponseEntity.ok().body(response);
+    }
+
+    /**
+     * Saves a new employee to the database.
+     *
+     * @param saveEmployeeRequest The employee data to be saved
+     * @return ResponseEntity containing success message
+     */
+    @Operation(summary = "Save new employee", description = "Creates a new employee record in the system")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Employee saved successfully", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid employee data supplied", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class)))
+    })
+    @PostMapping("/save-employee")
+    public ResponseEntity<SaveEmployeeResponse> saveEmployee(@RequestBody SaveEmployeeRequest saveEmployeeRequest) {
+
+        log.info("Accessed /employee endpoint with request: {}", saveEmployeeRequest);
+
+        employeeService.saveEmployee(saveEmployeeRequest);
+
+        log.info("Successfully saved employee: {}", saveEmployeeRequest);
+
+        return ResponseEntity.ok().body(SaveEmployeeResponse.builder().message("Employee saved successfully").build());
     }
 }
