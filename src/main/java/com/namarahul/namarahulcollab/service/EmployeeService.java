@@ -7,6 +7,8 @@ import com.namarahul.namarahulcollab.exception.EmployeeNotFoundException;
 import com.namarahul.namarahulcollab.repository.EmployeeRepository;
 import com.namarahul.namarahulcollab.util.MapperUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -24,6 +26,8 @@ public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
 
+    private final CacheManager cacheManager;
+
     /**
      * Retrieves an employee by ID and maps it to EmployeeResponse DTO.
      *
@@ -31,7 +35,10 @@ public class EmployeeService {
      * @return EmployeeResponse DTO of the found employee.
      * @throws RuntimeException if employee is not found.
      */
+    //@Cacheable(value = "address_cache", key = "#id")
     public EmployeeResponse getEmployeesById(Integer id) {
+
+
 
         Employee employee = employeeRepository.findById(id)
                 .orElseThrow(() -> new EmployeeNotFoundException("Employee not found with id: " + id));
