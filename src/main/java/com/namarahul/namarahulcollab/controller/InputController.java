@@ -88,7 +88,7 @@ public class InputController {
     }
 
     /**
-     * Test endpoint for verifying API functionality with a request parameter.
+     * Test endpoint for verifying API functionality with a request parameter
      * Request URL: http://localhost:8080/request-param-third/user?id=rahul&id=namrata
      */
     @GetMapping("request-param-third/user")
