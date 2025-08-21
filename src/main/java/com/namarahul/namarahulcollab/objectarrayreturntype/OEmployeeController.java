@@ -1,4 +1,4 @@
-package com.namarahul.namarahulcollab.interfacebasedprojection;
+package com.namarahul.namarahulcollab.objectarrayreturntype;
 
 import com.namarahul.namarahulcollab.dto.Response.EmployeeResponse;
 import com.namarahul.namarahulcollab.dto.common.ErrorResponse;
@@ -20,22 +20,22 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
- * IEmployeeController handles requests related to employee projections.
- * It provides endpoints to retrieve employee data using interface-based projections.
+ * OEmployeeController handles requests related to employee projections.
+ * It provides endpoints to retrieve employee data using object array return types.
  */
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("/interface-based-projection")
-@Tag(name = "Interface Based Projection")
-public class IEmployeeController {
+@RequestMapping("/object-array-return-type")
+@Tag(name = "Object Array Return Type")
+public class OEmployeeController {
 
-    private final IEmployeeService projectionEmployeeService;
+    private final OEmployeeService employeeService;
 
     /**
-     * Retrieves all employees' first names and last names as a list of IJuniorEmployee projections.
+     * Retrieves all employees' first names and last names as a list of OJuniorEmployee projections.
      *
-     * @return List of IJuniorEmployee containing first and last names of all employees.
+     * @return List of OJuniorEmployee containing first and last names of all employees.
      */
     @Operation(summary = "Get all employees", description = "Retrieves a list of all employees.")
     @ApiResponses(value = {
@@ -44,11 +44,11 @@ public class IEmployeeController {
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
     })
     @GetMapping("/get-all-employee-first-Name-and-last-name")
-    public ResponseEntity<List<IJuniorEmployeeResponse>> getAllEmployeeFirstNameAndLastName() {
+    public ResponseEntity<List<OJuniorEmployeeResponse>> getAllEmployeeFirstNameAndLastName() {
 
         log.info("Accessed /get-all-employees endpoint");
 
-        List<IJuniorEmployeeResponse> responses = projectionEmployeeService.getAllEmployeeFirstNameAndLastName();
+        List<OJuniorEmployeeResponse> responses = employeeService.getAllEmployeeFirstNameAndLastName();
 
         log.info("Returning employee responses: {}", responses);
 
@@ -59,7 +59,7 @@ public class IEmployeeController {
      * Retrieves an employee's email by their ID.
      *
      * @param id The ID of the employee whose email is to be retrieved.
-     * @return IEmployeeEmailResponse containing the email of the employee.
+     * @return OEmployeeEmailResponse containing the email of the employee.
      */
     @Operation(summary = "Get employee by ID", description = "Retrieves an employee's details by their unique ID.")
     @ApiResponses(value = {
@@ -68,11 +68,11 @@ public class IEmployeeController {
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
     })
     @GetMapping("/get-email-by-id")
-    public ResponseEntity<IEmployeeEmailResponse> getEmailById(@RequestParam Integer id) {
+    public ResponseEntity<OEmployeeEmailResponse> getEmailById(@RequestParam Integer id) {
 
         log.info("Accessed /get-email-by-id endpoint with ID: {}", id);
 
-        IEmployeeEmailResponse response = projectionEmployeeService.getEmailById(id);
+        OEmployeeEmailResponse response = employeeService.getEmailById(id);
 
         log.info("Returning employee response: {}", response);
 
